@@ -1,0 +1,108 @@
+{
+  "entities": {
+    "appointment": {
+      "title": "Appointment",
+      "description": "A booking for a clinic service",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string", "description": "Full name of the patient" },
+        "phoneNumber": { "type": "string", "description": "Contact phone number" },
+        "email": { "type": "string", "description": "Email address" },
+        "service": { "type": "string", "description": "Selected service (e.g., X-Ray, ECG)" },
+        "date": { "type": "string", "format": "date", "description": "Preferred date" },
+        "time": { "type": "string", "description": "Preferred time slot" },
+        "message": { "type": "string", "description": "Optional message from patient" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "completed", "cancelled"], "description": "Current status of the appointment" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the booking was made" }
+      },
+      "required": ["fullName", "phoneNumber", "service", "date", "time", "status", "createdAt"]
+    },
+    "service": {
+      "title": "Service",
+      "description": "A medical service offered by the clinic",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Service name" },
+        "description": { "type": "string", "description": "Service description" },
+        "icon": { "type": "string", "description": "Lucide icon name" },
+        "price": { "type": "string", "description": "Optional price" }
+      },
+      "required": ["name", "description", "icon"]
+    },
+    "contact_message": {
+      "title": "Contact Message",
+      "description": "A message from the contact form",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Sender name" },
+        "phone": { "type": "string", "description": "Sender phone" },
+        "message": { "type": "string", "description": "Message content" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the message was sent" }
+      },
+      "required": ["name", "phone", "message", "createdAt"]
+    },
+    "settings": {
+      "title": "Clinic Settings",
+      "description": "Global clinic information",
+      "type": "object",
+      "properties": {
+        "clinicName": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "mapsLink": { "type": "string" },
+        "whatsapp": { "type": "string" }
+      }
+    },
+    "user": {
+      "title": "User",
+      "description": "User profile with roles",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "description": "User email" },
+        "role": { "type": "string", "enum": ["admin", "user"], "description": "User role" },
+        "displayName": { "type": "string", "description": "Display name" }
+      },
+      "required": ["email", "role"]
+    },
+    "testimonial": {
+      "title": "Testimonial",
+      "description": "A patient review",
+      "type": "object",
+      "properties": {
+        "patientName": { "type": "string", "description": "Name of the patient (or 'Anonymous')" },
+        "service": { "type": "string", "description": "Service received" },
+        "content": { "type": "string", "description": "The testimonial text" },
+        "rating": { "type": "number", "description": "Star rating 1-5" },
+        "isAnonymous": { "type": "boolean", "description": "Whether to hide the name" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the testimonial was added" }
+      },
+      "required": ["content", "rating", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/appointments/{appointmentId}": {
+      "schema": "appointment",
+      "description": "Collection of clinic appointments"
+    },
+    "/services/{serviceId}": {
+      "schema": "service",
+      "description": "Medical services offered"
+    },
+    "/contact_messages/{messageId}": {
+      "schema": "contact_message",
+      "description": "Messages from patients"
+    },
+    "/settings/{settingId}": {
+      "schema": "settings",
+      "description": "Global clinic settings"
+    },
+    "/users/{userId}": {
+      "schema": "user",
+      "description": "User profiles and roles"
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": "testimonial",
+      "description": "Patient reviews and testimonials"
+    }
+  }
+}

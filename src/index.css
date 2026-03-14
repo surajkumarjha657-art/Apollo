@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --color-medical-blue: #0B6BCE;
+  --color-medical-light: #EAF4FF;
+  --font-sans: "Inter", "Poppins", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-white text-slate-900 font-sans;
+  }
+}
+
+.medical-card {
+  @apply bg-white rounded-2xl shadow-md border border-slate-100 p-6 transition-all hover:shadow-lg;
+}
+
+.btn-primary {
+  @apply bg-medical-blue text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50;
+}
+
+.btn-secondary {
+  @apply bg-medical-light text-medical-blue px-6 py-3 rounded-xl font-semibold hover:bg-blue-100 transition-colors;
+}

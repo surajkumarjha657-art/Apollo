@@ -1,0 +1,8 @@
+{
+  "name": "Apollo Clinic - Best Diagnostic & Healthcare in New Delhi",
+  "description": "Premium medical clinic in Mandi House, New Delhi offering X-Ray, ECG, Physiotherapy, Ultrasound, and more. Book appointments online.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

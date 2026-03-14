@@ -1,0 +1,74 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && (
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+        (request.auth.token.email == "surajkumarjha657@gmail.com" && request.auth.token.email_verified == true) ||
+        (request.auth.token.email == "admin123@apolloclinic.com")
+      );
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Appointments Collection
+    match /appointments/{appointmentId} {
+      // Anyone can create an appointment
+      allow create: if true;
+      
+      // Only admins can read, update, or delete appointments
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      // Users can read their own profile
+      allow read: if isOwner(userId) || isAdmin();
+      
+      // Only admins can create or update user roles
+      allow create, update: if isAdmin();
+    }
+
+    // Testimonials Collection
+    match /testimonials/{testimonialId} {
+      // Anyone can read testimonials
+      allow read: if true;
+      // Anyone can submit a testimonial (patient feedback)
+      allow create: if true;
+      // Only admins can update or delete testimonials
+      allow update, delete: if isAdmin();
+    }
+
+    // Services Collection
+    match /services/{serviceId} {
+      // Anyone can read services
+      allow read: if true;
+      // Only admins can manage services
+      allow write: if isAdmin();
+    }
+
+    // Contact Messages Collection
+    match /contact_messages/{messageId} {
+      // Anyone can send a message
+      allow create: if true;
+      // Only admins can read or delete messages
+      allow read, delete: if isAdmin();
+    }
+
+    // Settings Collection
+    match /settings/{settingId} {
+      // Anyone can read settings
+      allow read: if true;
+      // Only admins can update settings
+      allow write: if isAdmin();
+    }
+  }
+}
